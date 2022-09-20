@@ -28,30 +28,6 @@ class SBMVAE(IVAE):
         ans += tf.reduce_sum((n*(n-1)*0.5 - EnA2 - EnB2)*tf.math.log_sigmoid(-self.wout_lr))
         return -tf.reduce_sum(ans)
 
-#    @tf.function
-#    def Energy(self, phi):
-#        win = tf.sigmoid(self.win_lr)
-#        wout = tf.sigmoid(self.wout_lr)
-#        J0 = tf.math.log( wout / (1-wout) )
-#        J1 = tf.math.log( win / (1-win) )
-#        fin = tf.math.log(1-win)
-#        fout = tf.math.log(1-wout)
-#    
-#        mean_spin = tf.sigmoid(phi) - tf.sigmoid(-phi)
-#        m_in = tf.reduce_sum((tf.gather(mean_spin,self.e1,axis=1)*tf.gather(mean_spin,self.e2,axis=1)+1)/2,axis=1)
-#        m_out = -m_in + len(self.e1)
-#    
-#        EnA = tf.reduce_sum(tf.sigmoid(phi),axis=1)
-#        EnB = tf.reduce_sum(tf.sigmoid(-phi),axis=1)
-#        n = EnA+EnB
-#        EnA2 = 0.5*(EnA*EnA - tf.reduce_sum(tf.sigmoid(phi)**2,axis=1))
-#        EnB2 = 0.5*(EnB*EnB - tf.reduce_sum(tf.sigmoid(-phi)**2,axis=1))
-#    
-#        ans = tf.reduce_sum(m_in*J1) + tf.reduce_sum(m_out*J0)
-#        ans += tf.reduce_sum((EnA2+EnB2)*fin)
-#        ans += tf.reduce_sum((n*(n-1)*0.5 - EnA2 - EnB2)*fout)
-#        return -tf.reduce_sum(ans)
-
 
 if __name__=="__main__":
 

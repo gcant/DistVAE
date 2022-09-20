@@ -21,17 +21,13 @@ class SqIsingVAE(IVAE):
 
 if __name__=="__main__":
     ld = 8
-    #input_dim = ld*(ld-2)
     input_dim = 12
     hidden_width = 1024
     
     initializer = tf.keras.initializers.LecunNormal
     activation_fn = 'selu'
 
-
-    #D = NormalDistCov(input_dim, std=1.)
     D = BinaryDist(input_dim)
-
 
     decoder = tf.keras.Sequential( [
             tf.keras.layers.InputLayer(input_shape=(ld*ld)),
@@ -51,17 +47,10 @@ if __name__=="__main__":
 
     model = SqIsingVAE(encoder, decoder, D, beta, ld)
 
-
-    #learn_s = tf.keras.optimizers.schedules.ExponentialDecay(0.01, 1, 0.99, staircase=False, name=None)
-    #optimizer = tf.keras.optimizers.Adam(learn_s, clipnorm=1.)
-    #optimizer = tf.keras.optimizers.Adam(1e-3,clipnorm=10.)
     optimizer = tf.keras.optimizers.Adam(1e-3,clipvalue=1.)
-    #optimizer = tf.keras.optimizers.SGD(0.001, clipnorm=1.)
     H = []
     Z = all_binary_states(input_dim)*2 - 1
     for i in range(2000): 
         model.train_step(4000, optimizer, GT)
-        #model.train_step(len(Z), optimizer, GT, z=Z)
         H.append(model.test(2000, GT))
         print(H[-1])
-

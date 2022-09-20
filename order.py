@@ -83,17 +83,10 @@ if __name__=="__main__":
     #num_nodes = G.number_of_nodes()
     num_nodes = 32
 
-    #input_dim = 60
     input_dim = 16
-    #hidden_width = 32
-
-    #num_nodes = 4
-    #e1 = tf.convert_to_tensor([0,0,1,2,0])
-    #e2 = tf.convert_to_tensor([1,2,3,3,3])
 
     initializer = tf.keras.initializers.LecunNormal
     activation_fn = 'selu'
-    #D = NormalDist(input_dim, std=1.)
     D = BinaryDist(input_dim)
 
     decoder = tf.keras.Sequential( [
@@ -112,16 +105,10 @@ if __name__=="__main__":
             ] )
 
 
-    #model = orderVAE(encoder, decoder, D, e1, e2, 1.3862943611198908, train=False)
-    #model = orderVAE(encoder, decoder, D, e1, e2, 0.84729786038720, train=False)
     model = orderVAE(encoder, decoder, D, e1, e2, 1.0986122886681098, train=False)
-    #optimizer = tf.keras.optimizers.Adam(5e-4, clipnorm=1.)
     optimizer = tf.keras.optimizers.Adam(1e-3, clipnorm=10.)
 
-
     H = []
-
-
     
     for i in range(500): 
         model.train_step(4000, optimizer, 0.)
